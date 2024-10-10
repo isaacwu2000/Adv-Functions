@@ -9,30 +9,46 @@ public class Main extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
 
-        // Set the color for drawing
-        g.setColor(Color.BLUE);
-
         // Get the dimensions of the panel
         int width = getWidth();
         int height = getHeight();
 
-        // Calculating the x-axis
-        int midline = height / 2;
-
-        // Iterating over all Xs and drawing the appropriate point
-        for (int x = 0; x < width; x++) {
-            int y = (int) (Functions.funcComposition(x));
-            g.drawLine(x, midline - y, x, midline - y);
+        // Finding the range of a function by iterating over all the points (in the given domain)
+        double functionMax = Functions.composition(0);
+        double functionMin = Functions.composition(0);
+        for (double x = 10; x < width-10; x++) {
+            // Checking if the value is greater than the current max and updating the max as needed
+            if (Functions.composition(x) > functionMax) {
+                functionMax = Functions.composition(x);
+            // Checking if the value is less than the current min and updating as needed
+            if (Functions.composition(x) < functionMin) {
+                functionMin = Functions.composition(x);
+            }
+            }
         }
+        System.out.println("Max: " + functionMax);
+        System.out.println("Min: " + functionMin);
 
-        // TODO: Implement a way to 1) find the max and min of the function, and 2) scale it so that it fits
+        // Iterating over all x's and drawing the appropriate point
+        g.setColor(Color.RED);
+        for (int x = 10; x < width - 10; x++) {
+            // Scaling the graph with margins of 10
+            int y = (int) (((functionMax - Functions.composition(x)) * (height - 20)) / (functionMax - functionMin) + 10);
+            g.drawLine(x, y, x, y);
+        }
+        // Setting boundaries
+        g.setColor(Color.BLACK);
+        g.drawLine(10, 10, width - 10, 10);
+        g.drawLine(10, height - 10, width - 10, height - 10);
+        g.drawLine(10, 10, 10, height - 10);
+        g.drawLine(width - 10, 10, width - 10, height - 10);
     }
 
     public static void main (String[] args){
         // Create a window (JFrame) to display
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(600, 1000);
+        frame.setSize(1200, 800);
         frame.add(new Main());
         frame.setVisible(true);
     }
