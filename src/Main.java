@@ -45,6 +45,12 @@ public class Main extends JPanel {
     }
 
     public static void main (String[] args){
+        // Displaying the oddness, evenness, and invertibility of a function
+        Triplet oei = new Triplet();
+        System.out.println("Odd: " + oei.isOdd());
+        System.out.println("Even: " + oei.isEven());
+        System.out.println("Invertible: " + oei.isInvertible());
+
         // Create a window (JFrame) to display
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
